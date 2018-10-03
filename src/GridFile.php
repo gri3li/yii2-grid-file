@@ -121,7 +121,7 @@ class GridFile extends Component
         }
         if ($this->spreadsheet === null) {
             $this->spreadsheet = new Spreadsheet();
-        } elseif (!($this->spreadsheet instanceof DataProviderInterface)) {
+        } elseif (!($this->spreadsheet instanceof Spreadsheet)) {
             throw new InvalidConfigException('spreadsheet class must inherit from PhpOffice\PhpSpreadsheet\Spreadsheet');
         }
     }

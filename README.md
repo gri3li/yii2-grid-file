@@ -18,7 +18,7 @@ composer require --prefer-dist gri3li/yii2-grid-file
 or add
 
 ```json
-"yii2tech/csv-grid": "*"
+"gri3li/yii2-grid-file": "*"
 ```
 
 to the require section of your composer.json.
