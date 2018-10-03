@@ -1,0 +1,20 @@
+{
+    "name": "gri3li/yii2-grid-file",
+    "description": "This Yii2 extension provides ability to export data form data provider to format supported by PhpSpreadsheet",
+    "keywords": ["yii2", "export", "grid", "xls", "xlsx", "csv", "ods"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Mikhail Gerasimov",
+            "email": "migerasimoff@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "1.*",
+        "yiisoft/yii2": "2.*"
+    },
+    "autoload": {
+        "psr-4": { "gri3li\\yii2gridfile\\": "src" }
+    }
+}
