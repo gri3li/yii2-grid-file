@@ -2,7 +2,7 @@
 Data Export extension for Yii2 based on PhpSpreadsheet
 ===
 
-This extension provides ability to export data form data provider to format supported by PhpSpreadsheet
+This Yii2 extension provides ability to export data form data provider to format supported by PhpSpreadsheet
 
 Installation
 ------------
@@ -12,7 +12,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer require --prefer-dist gri3li/grid-file
+composer require --prefer-dist gri3li/yii2-grid-file
 ```
 
 or add
@@ -45,6 +45,13 @@ $export = new GridFile([
         'name',
         'date:datetime',
     ],
+    'headerCellStyle' => [
+        'font' => ['bold' => true],
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'startColor' => ['argb' => 'FFA0A0A0'],
+        ],
+    ],
 ]);
 $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Xls::class, '/path/to/file.xls');
 
@@ -53,3 +60,5 @@ $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Xls::class, '/path/to/file.xls'
 // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Html::class, '/path/to/file.html');
 // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Csv::class, '/path/to/file.csv');
  ```
+ 
+ More info about phpspreadsheet style [https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles](https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles)

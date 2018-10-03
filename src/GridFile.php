@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace gri3li\yii2gridfile;
 
 use Yii;
 use yii\di\Instance;
@@ -18,7 +18,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  * Example:
  *
  * ```php
- * $export = new GridFile([
+ * $export = new \gri3li\yii2gridfile\GridFile([
  *     'dataProvider' => new \yii\data\ArrayDataProvider([
  *         'allModels' => [
  *             [
@@ -34,6 +34,13 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  *     'columns' => [
  *         'name',
  *         'date:datetime',
+ *     ],
+ *     'headerCellStyle' => [
+ *         'font' => ['bold' => true],
+ *         'fill' => [
+ *              'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+ *              'startColor' => ['argb' => 'FFA0A0A0'],
+ *          ],
  *     ],
  * ]);
  * $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Xls::class, '/path/to/file.xls');
