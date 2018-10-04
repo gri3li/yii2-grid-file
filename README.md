@@ -28,7 +28,7 @@ Usage
 -----
 
  ```php
-$export = new GridFile([
+$export = new \gri3li\yii2gridfile\GridFile([
     'dataProvider' => new \yii\data\ArrayDataProvider([
         'allModels' => [
             [
@@ -49,7 +49,7 @@ $export = new GridFile([
         'font' => ['bold' => true],
         'fill' => [
             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-            'startColor' => ['argb' => 'FFA0A0A0'],
+            'startColor' => ['rgb' => 'CCCCCC'],
         ],
     ],
 ]);

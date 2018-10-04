@@ -39,7 +39,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  *         'font' => ['bold' => true],
  *         'fill' => [
  *              'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
- *              'startColor' => ['argb' => 'FFA0A0A0'],
+ *              'startColor' => ['rgb' => 'CCCCCC'],
  *          ],
  *     ],
  * ]);
@@ -289,6 +289,7 @@ class GridFile extends Component
             throw new InvalidConfigException('writerClass should implement the IWriter interface');
         }
         $this->initColumns();
+        $this->autoSizeColumns();
         if ($this->showHeader) {
             $this->renderTableHeader();
         }
@@ -299,5 +300,15 @@ class GridFile extends Component
         /** @var \PhpOffice\PhpSpreadsheet\Writer\IWriter $writer */
         $writer = new $writerClass($this->spreadsheet);
         $writer->save($path);
+    }
+
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    private function autoSizeColumns()
+    {
+        for ($i = 1, $count = count($this->columns); $i <= $count; $i++) {
+            $this->spreadsheet->getActiveSheet()->getColumnDimensionByColumn($i)->setAutoSize(true);
+        }
     }
 }
