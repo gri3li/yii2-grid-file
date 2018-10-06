@@ -53,7 +53,6 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
  * ```
  *
  * @author Mikhail Gerasimov <migerasimoff@gmail.com>
- * @since 1.0
  */
 class GridFile extends Component
 {
@@ -141,6 +140,7 @@ class GridFile extends Component
 
     /**
      * @throws InvalidConfigException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function init()
     {
@@ -160,6 +160,16 @@ class GridFile extends Component
         }
         $this->startColumnIndex = Coordinate::columnIndexFromString(explode(':', $this->startTopLeftCell)[0]);
         $this->startRowIndex = explode(':', $this->startTopLeftCell)[1];
+
+        $this->initColumns();
+        $this->autoSizeColumns();
+        if ($this->showHeader) {
+            $this->renderTableHeader();
+        }
+        $this->renderTableBody();
+        if ($this->showFooter) {
+            $this->renderTableFooter();
+        }
     }
 
     /**
@@ -297,15 +307,6 @@ class GridFile extends Component
     {
         if (!in_array(IWriter::class, class_implements($writerClass))) {
             throw new InvalidConfigException('writerClass should implement the IWriter interface');
-        }
-        $this->initColumns();
-        $this->autoSizeColumns();
-        if ($this->showHeader) {
-            $this->renderTableHeader();
-        }
-        $this->renderTableBody();
-        if ($this->showFooter) {
-            $this->renderTableFooter();
         }
         /** @var \PhpOffice\PhpSpreadsheet\Writer\IWriter $writer */
         $writer = new $writerClass($this->spreadsheet);
