@@ -11,6 +11,7 @@ use yii\base\InvalidConfigException;
 use yii\data\DataProviderInterface;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 /**
  * Data Export extension based on PhpSpreadsheet
@@ -51,15 +52,11 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  * // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Csv::class, '/path/to/file.csv');
  * ```
  *
- * @property array|Formatter $formatter the formatter used to format model attribute values into displayable texts.
- *
  * @author Mikhail Gerasimov <migerasimoff@gmail.com>
  * @since 1.0
  */
 class GridFile extends Component
 {
-    const HEADER_OFFSET = 1;
-
     /**
      * @var \yii\data\DataProviderInterface
      */
@@ -128,6 +125,21 @@ class GridFile extends Component
     public $spreadsheet;
 
     /**
+     * @var string grid first cell position.
+     */
+    public $startTopLeftCell = 'A:1';
+
+    /**
+     * @var int
+     */
+    private $startColumnIndex;
+
+    /**
+     * @var int
+     */
+    private $startRowIndex;
+
+    /**
      * @throws InvalidConfigException
      */
     public function init()
@@ -146,6 +158,8 @@ class GridFile extends Component
         } elseif (!($this->spreadsheet instanceof Spreadsheet)) {
             throw new InvalidConfigException('spreadsheet class must inherit from PhpOffice\PhpSpreadsheet\Spreadsheet');
         }
+        $this->startColumnIndex = Coordinate::columnIndexFromString(explode(':', $this->startTopLeftCell)[0]);
+        $this->startRowIndex = explode(':', $this->startTopLeftCell)[1];
     }
 
     /**
@@ -221,16 +235,15 @@ class GridFile extends Component
      */
     public function renderTableHeader()
     {
-        $headerPosition = 1;
-        $columnIndex = 1;
+        $columnIndex = $this->startColumnIndex;
         /** @var \yii\grid\Column $column */
         foreach ($this->columns as $column) {
-            $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex, $headerPosition);
+            $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex++, $this->startRowIndex);
             $value = $column->renderHeaderCell();
             $cell->setValue(html_entity_decode(strip_tags($value)));
             $cell->getStyle()->applyFromArray(array_merge($this->cellStyle, $this->headerCellStyle));
-            $columnIndex++;
         }
+        $this->startRowIndex++;
     }
 
     /**
@@ -240,18 +253,17 @@ class GridFile extends Component
      */
     public function renderTableBody()
     {
-        $rowIndex = 1;
         foreach ($this->dataProvider->getModels() as $model) {
-            $columnIndex = 1;
+            $columnIndex = $this->startColumnIndex;
             /** @var \yii\grid\Column $column */
             foreach ($this->columns as $column) {
-                $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex, self::HEADER_OFFSET + $rowIndex);
-                $value = $column->renderDataCell($model, null, $rowIndex);
+                $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex, $this->startRowIndex);
+                $value = $column->renderDataCell($model, null, $columnIndex - $this->startColumnIndex);
                 $cell->setValue(html_entity_decode(strip_tags($value)));
                 $cell->getStyle()->applyFromArray(array_merge($this->cellStyle, $this->bodyCellStyle));
                 $columnIndex++;
             }
-            $rowIndex++;
+            $this->startRowIndex++;
         }
     }
 
@@ -262,15 +274,13 @@ class GridFile extends Component
      */
     public function renderTableFooter()
     {
-        $footerPosition = $this->dataProvider->getCount() + self::HEADER_OFFSET + 1;
-        $columnIndex = 1;
+        $columnIndex = $this->startColumnIndex;
         /* @var \yii\grid\Column $column */
         foreach ($this->columns as $column) {
-            $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex, $footerPosition);
+            $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex++, $this->startRowIndex);
             $value = $column->renderFooterCell();
             $cell->setValue(html_entity_decode(strip_tags($value)));
             $cell->getStyle()->applyFromArray(array_merge($this->cellStyle, $this->footerCellStyle));
-            $columnIndex++;
         }
     }
 
@@ -307,7 +317,7 @@ class GridFile extends Component
      */
     private function autoSizeColumns()
     {
-        for ($i = 1, $count = count($this->columns); $i <= $count; $i++) {
+        for ($i = $this->startColumnIndex, $end = $this->startColumnIndex + count($this->columns); $i < $end; $i++) {
             $this->spreadsheet->getActiveSheet()->getColumnDimensionByColumn($i)->setAutoSize(true);
         }
     }
