@@ -61,4 +61,13 @@ $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Xls::class, '/path/to/file.xls'
 // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Csv::class, '/path/to/file.csv');
  ```
  
- More info about phpspreadsheet style [https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles](https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles)
+More info about phpspreadsheet style [https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles](https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles)
+ 
+Use case [https://github.com/gri3li/yii2-grid-file/tree/master/example](https://github.com/gri3li/yii2-grid-file/tree/master/example)
+
+For run use case:
+```
+cd vendor/gri3li/yii2-grid-file/example/
+php -S 127.0.0.1:8877
+```
+open [http://127.0.0.1:8877](http://127.0.0.1:8877)
