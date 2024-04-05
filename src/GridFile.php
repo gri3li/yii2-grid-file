@@ -263,12 +263,12 @@ class GridFile extends Component
      */
     public function renderTableBody()
     {
-        foreach ($this->dataProvider->getModels() as $model) {
+        foreach ($this->dataProvider->getModels() as $index => $model) {
             $columnIndex = $this->startColumnIndex;
             /** @var \yii\grid\Column $column */
             foreach ($this->columns as $column) {
                 $cell = $this->spreadsheet->getActiveSheet()->getCellByColumnAndRow($columnIndex, $this->startRowIndex);
-                $value = $column->renderDataCell($model, null, $columnIndex - $this->startColumnIndex);
+                $value = $column->renderDataCell($model, null, $index);
                 $cell->setValue(html_entity_decode(strip_tags($value)));
                 $cell->getStyle()->applyFromArray(array_merge($this->cellStyle, $this->bodyCellStyle));
                 $columnIndex++;
