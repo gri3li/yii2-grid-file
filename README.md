@@ -1,28 +1,16 @@
+Data Export extension for Yii2
+==============================
 
-Data Export extension for Yii2 based on PhpSpreadsheet
-===
-
-This Yii2 extension provides ability to export data form data provider to format supported by PhpSpreadsheet
+This Yii2 extension provides ability to export data form instances of `yii\data\DataProviderInterface` to format supported by PhpSpreadsheet
 
 Installation
 ------------
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+Install the package via Composer:
 
-Either run
-
+```bash
+composer require gri3li/yii2-grid-file
 ```
-composer require --prefer-dist gri3li/yii2-grid-file
-```
-
-or add
-
-```json
-"gri3li/yii2-grid-file": "*"
-```
-
-to the require section of your composer.json.
-
 
 Usage
 -----
@@ -60,14 +48,16 @@ $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Xls::class, '/path/to/file.xls'
 // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Html::class, '/path/to/file.html');
 // $export->saveAs(\PhpOffice\PhpSpreadsheet\Writer\Csv::class, '/path/to/file.csv');
  ```
- 
-More info about phpspreadsheet style [https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles](https://phpspreadsheet.readthedocs.io/en/develop/topics/recipes/#styles)
- 
+
+More info about phpspreadsheet style [https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles](https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles)
+
 Use case [https://github.com/gri3li/yii2-grid-file/tree/master/example](https://github.com/gri3li/yii2-grid-file/tree/master/example)
 
 For run use case:
+
 ```
 cd vendor/gri3li/yii2-grid-file/example/
 php -S 127.0.0.1:8877
 ```
+
 open [http://127.0.0.1:8877](http://127.0.0.1:8877)
